@@ -55,8 +55,6 @@ else % if it's a probeday
     % measures were explored to ensure robustness 
     
     reg_y1 = nanmean(trialprobe(:,3,:),3)-nanmean(trialprobe(:,4,:),3); %% mean time A>C
-    reg_y2 = sum(trialprobe(:,3,:)>trialprobe(:,4,:),3)-sum(trialprobe(:,3,:)<trialprobe(:,4,:),3); %% mean trials A>C
-    reg_y3 = squeeze(sum(trialprobe(:,3,:)>0,3)-sum(trialprobe(:,4,:)>0,3)); %% diff in trials > 0
     
     % find the neurons from good or bad behaved animals
     clear nindex*
@@ -119,6 +117,8 @@ if pcflag == 1  %% if data is from a preconditioning day
     bo_rho_resample
     
     bo_classify_PC
+    
+    bo_corr_earlylate % for multibin correlation suppliment to figure 3
     
 elseif pcflag == 2
 else
