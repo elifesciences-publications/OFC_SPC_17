@@ -16,7 +16,7 @@ clr =  [0.3 0.77 0.99;...
         0.88 0.88 0.14;...
         0.55 0.55 0.15;...
         0.4 0.4 0.8];...
-%neural_resp=meanpsth;
+
 meanpsth2=neural_resp(nindex,:,:);
 
 clear cue_*
@@ -107,6 +107,8 @@ bar(xhistvalues,yhistvalues,1.25,'edgecolor','none'),colormap(clr),xlim([-0.25,0
 set(gca,'TickDir','out','LineWidth',1),box off
 jjvector=5:5:size(meanpsth2,1);
 subplot(4,2,[3:4]+4)
+
+
 for ii = 1:4
     errorbar(jjvector,squeeze(nanmean(rho_agg(:,:,ii),2))',2*squeeze(nanstd(rho_agg(:,:,ii),[],2))'/sqrt(sum(nindex>0)),'color',clr(ii,:),'linewidth',2),hold on
     xlabel('ensemble size'),ylabel('correlation between cues')

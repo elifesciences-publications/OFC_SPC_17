@@ -26,9 +26,7 @@ for i = [size(site,1):-1:1]
         if j<2.5
             for k = ABtrials:-1:1
                 try
-                    %  cuetimes = cue_onsets(cue_onsets(:,1)==j,2:3);
-                    %    startime=10+diff(squeeze(cuetimes(k,:))); %analysis start (seconds)
-                    %   endtime=70+diff(squeeze(cuetimes(k,:)));
+           
                     startime = bin+10;
                     endtime = 80;
                     
@@ -91,11 +89,8 @@ for i = size(site,1):-1:1
     for j = cues
         if j<2.5
             meanpsth(i,j,:) =  squeeze(nanmean(psth_AB_trials(i,j,:,:),3));
-            %             meanPokepsth(i,j,:,:) =  squeeze(nanmean(psth_AB_poke(i,j,:,:),3));
-            %             meanDippsth(i,j,:,:) =  squeeze(nanmean(psth_B_dipper(i,1,:,:,:),3));
         else
             meanpsth(i,j,:) =  squeeze(nanmean(psth_CD_trials(i,j,:,:),3));
-            %             meanPokepsth(i,j,:,:) =  squeeze(nanmean(psth_CD_poke(i,j,:,:),3));
             
         end
     end

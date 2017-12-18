@@ -73,10 +73,6 @@ end
 
 
 
-%figure(555)
-%hold on
-
-%plot(steps(1:end-4),medfilt1((numcorrect'),1)/size(thepsth1,3))
 
 output = (numcorrect');
 output2 = [numcorrect1';numcorrect2'];

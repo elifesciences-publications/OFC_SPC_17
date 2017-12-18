@@ -29,24 +29,7 @@ for i = [size(site,1):-1:1]
         if j<2.5
             for k = ABtrials:-1:1
                 
-%                 if j == 1
-%                     ztimes = [1 4.5 8];
-%                     for zz = 1:3
-%                         psth_B_dipper(i,j,k,zz,:) = [histc(site(i,j).trials(k).times,[startime:bin:endtime]-ztimes(zz))];
-%                     end
-%                 end
-                
-                % ptimes = pokeIns(ens,j).trials(k).times;
-                
-                % if ~isempty(ptimes)
-                % psth_AB_firstcuepoke(i,j,k,:) =  [histc(site(i,j).trials(k).times,[ptimes(1)-5:bin:ptimes(1)+5])];
-                
-                %    for pp = 1:length(ptimes)
-                %       ptime = ptimes(pp);
-                %       psth_AB_pokes(pp,:) =  [histc(site(i,j).trials(k).times,[ptime-5:bin:ptime+5])];
-                %  end
-                % psth_AB_poke(i,j,k,:)=squeeze(mean(psth_AB_pokes,1));
-                % end
+
                 try
                 l=l+1;
                 psth_AB_trials(i,j,k,:) = [histc(site(i,j).trials(k).times,[startime:bin:endtime])];
@@ -81,8 +64,7 @@ for i = size(site,1):-1:1
     for j = cues
         if j<2.5
             meanpsth(i,j,:) =  squeeze(nanmean(psth_AB_trials(i,j,:,:),3));
-            %meanPokepsth(i,j,:,:) =  squeeze(nanmean(psth_AB_poke(i,j,:,:),3));
-            %             meanDippsth(i,j,:,:) =  squeeze(nanmean(psth_B_dipper(i,1,:,:,:),3));
+       
         else
             
         end

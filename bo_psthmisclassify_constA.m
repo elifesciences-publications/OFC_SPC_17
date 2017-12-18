@@ -60,9 +60,8 @@ for tbin = ceil(win/2)+1:size(thepsth1,4)-ceil(win/2)-1
     test_trial=1;
     
     try [xx]=classify(test_pca(:,:),train_pca(:,:),cuegroup_train(:),'diagLinear');
-        %numcorrect(tbin,test_trial) = sum(xx==cuegroup(:))/size(thepsth1,2);
-        %numcorrect(tbin,test_trial) = sum(xx==cuegroup([4 5 6 10 11 12])')/size(thepsth1,2);
-        %numcorrect(tbin,test_trial) = sum(xx==cuegroup([1 2 3 7 8 9])')/size(thepsth1,2);
+
+        
         numcorrect(tbin,test_trial) = sum(xx==cuegroup_test(:))/size(thepsth1,2);
         numcorrect1(tbin,test_trial) = sum(xx(cuegroup_test==1)==1);
         numcorrect2(tbin,test_trial) = sum(xx(cuegroup_test==2)==2);
@@ -72,12 +71,6 @@ for tbin = ceil(win/2)+1:size(thepsth1,4)-ceil(win/2)-1
     end
 end
 
-
-
-%figure(555)
-%hold on
-
-%plot(steps(1:end-4),medfilt1((numcorrect'),1)/size(thepsth1,3))
 
 output = (numcorrect');
 output2 = [numcorrect1';numcorrect2'];

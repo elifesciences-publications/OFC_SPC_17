@@ -32,8 +32,7 @@ figure;hold on,
 subplot(1,2,1);bar(sum(sign_h(:,:))/size(sign_h,1)),xlim([.5 4.5]),ylim([0 .5])
 [xind,yind]=sort(-1.1*sign_h(:,3)-sign_h(:,4));
 subplot(1,2,2);imagesc((sign_h(yind,:))),colormap('gray'),caxis([-.5 1.5])
-%meanpsth of ABCD
-%plot(steps-10,squeeze(mean(AUC(sum(sign_h,2)>0,1:4,:),1))')
+
 %the fraction of neurons responding to one of the cues
 sum(sum(sign_h(:,:),2)>0);
 
@@ -58,7 +57,4 @@ subplot(1,2,1);bar(sum(sign_h(:,:))/size(sign_h,1)),xlim([.5 4.5]),ylim([0 .5])
 [xind,yind]=sort(-1.1*sign_h(:,3)-sign_h(:,4));
 subplot(1,2,2);imagesc((sign_h(yind,:))),colormap('gray'),caxis([-.5 1.5])
 end 
-% thresh=.55%max(cue_meanBK(:));
-% %
- %subplot(1,2,1);bar(sum(cue_mean>thresh)),%[xind yind]=sort(-1.1*sign_h(:,3)-sign_h(:,4));
-% %subplot(1,2,2);imagesc((sign_h(yind,:))),colormap('gray'),caxis([-.5 1.5])
+

@@ -76,11 +76,10 @@ for i = size(site,1):-1:1
     for j = cues
         if j<2.5
             meanpsth(i,j,:) =  squeeze(nanmean(psth_AB_trials(i,j,:,:),3));
-            %meanPokepsth(i,j,:,:) =  squeeze(nanmean(psth_AB_poke(i,j,:,:),3));
-            %             meanDippsth(i,j,:,:) =  squeeze(nanmean(psth_B_dipper(i,1,:,:,:),3));
+
+            
         else
             meanpsth(i,j,:) =  squeeze(nanmean(psth_CD_trials(i,j,:,:),3));
-            %             meanPokepsth(i,j,:,:) =  squeeze(nanmean(psth_CD_poke(i,j,:,:),3));
             
         end
     end

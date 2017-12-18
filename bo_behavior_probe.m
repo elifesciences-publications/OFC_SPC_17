@@ -208,9 +208,7 @@ end
  errorbar(1:6,squeeze(nanmean(datatoplot(:,1,:),1))/zz,squeeze(nanstd(datatoplot(:,1,:),1)/zz)/sqrt(22)*1),hold on
  errorbar(1:6,squeeze(nanmean(datatoplot(:,2,:),1))/zz,squeeze(nanstd(datatoplot(:,2,:),1)/zz)/sqrt(22)*1)
 
-%  errorbar(1:6,squeeze(nanmean(trialprobe(:,3,:),1)/zz),squeeze(nanstd(trialprobe(:,3,:)/zz,1))/sqrt(22)*1),hold on
-%  errorbar(1:6,squeeze(nanmean(trialprobe(:,4,:),1)/zz),squeeze(nanstd(trialprobe(:,4,:)/zz,1))/sqrt(22)*1)
-
+ 
 xlim([.5 6.5])
 xlabel('trial #')
 ylabel('fraction of cue in food cup')
