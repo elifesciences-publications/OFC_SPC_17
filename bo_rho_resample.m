@@ -16,17 +16,18 @@ clr =  [0.3 0.77 0.99;...
         0.88 0.88 0.14;...
         0.55 0.55 0.15;...
         0.4 0.4 0.8];...
-
-meanpsth2=neural_resp(:,:,:);
+%neural_resp=meanpsth;
+meanpsth2=neural_resp(nindex,:,:);
 
 clear cue_*
 for nn = 1:size(meanpsth2,1)
-    cue_mean(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps==rhotimeStart,1,'first'):find(steps==rhotimeStop,1,'last')),3))/bin;
-    cue_meanBK(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps==-30,1,'first'):find(steps==-0,1,'last')),3))/bin;
+    cue_mean(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps>rhotimeStart,1,'first'):find(steps<rhotimeStop,1,'last')),3))/bin;
+    cue_meanBK(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps>-30,1,'first'):find(steps<-20,1,'last')),3))/bin;
     
 end
 
-sjsj = 1:(size(meanpsth2,1));
+sjsj = 1:size(meanpsth2,1);
+
 
 subplot(4,2,1)
 scatter(cue_mean(sjsj,1)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,3)-mean(cue_meanBK(sjsj,:),2),[],clr(1,:))
@@ -52,11 +53,11 @@ scatter(cue_mean(sjsj,2)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,4)-mean(cue_me
 set(gca,'TickDir','out','LineWidth',1),box off
 xlabel('hz to D over baseline'),ylabel('hz to C over baseline')
 
-
-[rho(1), rhop(1)]=corr(cue_mean(sjsj,1)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,3)-mean(cue_meanBK(sjsj,:),2),'type','pearson');
-[rho(2), rhop(2)]=corr(cue_mean(sjsj,1)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,4)-mean(cue_meanBK(sjsj,:),2),'type','pearson');
-[rho(3), rhop(3)]=corr(cue_mean(sjsj,2)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,3)-mean(cue_meanBK(sjsj,:),2),'type','pearson');
-[rho(4), rhop(4)]=corr(cue_mean(sjsj,2)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,4)-mean(cue_meanBK(sjsj,:),2),'type','pearson');
+ctype = 'pearson';
+[rho(1), rhop(1)]=corr(cue_mean(sjsj,1)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,3)-mean(cue_meanBK(sjsj,:),2),'type',ctype);
+[rho(2), rhop(2)]=corr(cue_mean(sjsj,1)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,4)-mean(cue_meanBK(sjsj,:),2),'type',ctype);
+[rho(3), rhop(3)]=corr(cue_mean(sjsj,2)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,3)-mean(cue_meanBK(sjsj,:),2),'type',ctype);
+[rho(4), rhop(4)]=corr(cue_mean(sjsj,2)-mean(cue_meanBK(sjsj,:),2),cue_mean(sjsj,4)-mean(cue_meanBK(sjsj,:),2),'type',ctype);
 
 
 for ii = 1:4
@@ -75,7 +76,7 @@ jjct=0;
 
 for jj = 5:5:size(meanpsth2,1),
     jjct = jjct+1;
-for ii = 1:100
+for ii = 1:10
 clear cue_mean
 clear cue_meanBK
 

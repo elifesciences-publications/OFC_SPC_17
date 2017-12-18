@@ -1,4 +1,4 @@
-%% OFC SPC MASTER SCRIPT
+ %% OFC SPC MASTER SCRIPT
 
 clear all
 
@@ -8,9 +8,9 @@ bin = .25;
 
 %% choose the data you're going to load, and load it
 
-%filename = ('PC1_OFC_collected_aligned_.mat');pcflag = 1;
-%filename = ('PC2_OFC_collected_aligned_.mat');pcflag = 1;
-filename = ('PR0_OFC_collected_aligned_.mat');pcflag =0;
+filename = ('PC1_OFC_collected_aligned_.mat');pcflag = 1;
+filename2 = ('PC2_OFC_collected_aligned_.mat');pcflag = 1;
+%filename = ('PR0_OFC_collected_aligned_.mat');pcflag =0;
 %filename = ('C1_cueAligned_minus25-malfunction.mat'); pcflag=2;
 %filename = ('C2_cueAligned_all22.mat'); pcflag=2;
 %filename = ('C3_cueAligned_missing17-malfunction.mat'); pcflag=2;
@@ -18,30 +18,26 @@ filename = ('PR0_OFC_collected_aligned_.mat');pcflag =0;
 %filename = ('C5_cueAligned_all22.mat'); pcflag=2;
 %filename = ('C6_cueAligned_missing9.mat'); pcflag=2;
 
-[site, neuronEnsNum, pokein, pokeout, beh_ens] = load_spc(filename);
+[site1, neuronEnsNum, pokein, pokeout, beh_ens] = load_spc(filename);
 
 if exist('filename2','var')
     [site2, neuronEnsNum2, pokein, pokeout, beh_ens] = load_spc(filename2);
-    site = [site;site2]; neuronEnsNum =[neuronEnsNum;neuronEnsNum2];
+    neuronEnsNum2=neuronEnsNum2; 
+    site = [site1;site2]; neuronEnsNum =[neuronEnsNum;neuronEnsNum2];
+    neuronDayNum = zeros(size(neuronEnsNum));
+    neuronDayNum(1:length(neuronEnsNum))=1;
+    neuronDayNum(length(neuronEnsNum)-length(neuronEnsNum2):length(neuronEnsNum))=2;
+else
+    site=site1;
+    neuronDayNum = zeros(size(neuronEnsNum));
+    neuronDayNum(1:length(neuronEnsNum))=1;
 end
 
 %%  first remove neurons that don't exceed a signal-to-noise threshold
 for ii = size(site,1):-1:1, sortstat(ii)=site(ii,1).stats.sig2noise;end
 site = site(sortstat>sortthreshold,:);
 neuronEnsNum = neuronEnsNum(sortstat>sortthreshold,:);
-
-%% also remove neurons from probe test that were lost during longer recording session
-% ideally would go back and re-sort, but this removes any neurons where
-% trials at end of session were obviously lost - this problem didn't arise
-% (or sorting was more careful) during shorter preconditioning sessions
-
-if pcflag == 1
-elseif pcflag == 2
-else
-    neurons2keep = setdiff(1:265,[6 12 51 71 74 82 83 85 86 87 88 90 93 94 130 140 152 156 167 172 197 201 223 229 232 242 253 254 258 105 107 111 112]);
-    site = site(neurons2keep,:);
-    neuronEnsNum = neuronEnsNum(neurons2keep,:);
-end
+neuronDayNum = neuronDayNum(sortstat>sortthreshold,:);
 
 %% analyze behavior
 

@@ -1,4 +1,4 @@
-function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_CD_trials,psth_AB_background, psth_CD_background] = bo_psthify_probe(site,neuronEnsNum,bin)
+function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_CD_trials,psth_AB_background, psth_CD_background] = bo_psthify_pc(site,neuronEnsNum,bin)
 
 
 startime=bin; %analysis start (seconds)
@@ -7,8 +7,6 @@ bstartime = bin;
 bendtime =20;
 
 steps=(startime:bin:endtime); %bins to use for PSTH & plots
-win = 10; % analysis window for each method below (# of BINS)
-
 cues = 1:4; %stimuli to include
 ABtrials = 6;
 CDtrials = 6; %# of trials to include

@@ -1,11 +1,11 @@
-function [output, output2] = bo_psthmisclassify_constA_shuffle(thepsth1,thepsth2,steps)%%% develop a neural classifier based on a 'leave one out' approach on a
+function [output, output2] = bo_psthmisclassify_constA_shuffle(thepsth1,thepsth2,steps,window)%%% develop a neural classifier based on a 'leave one out' approach on a
 %%% per neuron basis with the input of psth_AB_trials
 
 
 %% first, reshape data into matrices
 
 
-win =6;
+win =window;
 
 for nn = size(thepsth1,1):-1:1
     cue_by_trial_counter=0;

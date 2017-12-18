@@ -11,7 +11,7 @@ win = 10; % analysis window for each method below (# of BINS)
 
 cues = 1:4; %stimuli to include
 ABtrials = 3;
-CDtrials = 3; %# of trials to include
+CDtrials = 2; %# of trials to include
 
 clear psth*
 clear mean*

@@ -1,10 +1,11 @@
+    load('probe_beh_vars.mat')
 
-sortthreshold = 3; % remove neurons w/ deviation less than 3x noise
-bin = 1;
-
+clear filename
 filename(1) = {'PC1_OFC_collected_aligned_.mat'};
 filename(2) = {'PC2_OFC_collected_aligned_.mat'};
+bin = .25;
 
+sortthreshold = 3; % remove neurons w/ deviation less than 3x noise
 
 clr=[0 0 0;... %events 1 (black)
     .5 .5 .5;...  %events 2 (gray)
@@ -21,14 +22,23 @@ scatterindex=0;
 for fi =1:2;
     
     %% collect and load the binned spike data to use in average cue response
-    [site, neuronEnsNum, pokein, pokeout, beh_ens] = load_spc(filename{fi});
-    
+
+
+    [site, neuronEnsNum, pokein, pokeout] = load_spc(filename{fi});
+        
     clear sortstat
     for ii = size(site,1):-1:1, sortstat(ii)=site(ii,1).stats.sig2noise;end
     site = site(sortstat>sortthreshold,:);
     neuronEnsNum = neuronEnsNum(sortstat>sortthreshold,:);
     
+    goodEns =  ismember(neuronEnsNum,beh_ens(beh_order(beh_num>0)));
+
+    
+    %site=site(goodEns,:);
+    %neuronEnsNum = neuronEnsNum(goodEns,:);
+    
     nindex = 1:size(site,1);
+    
     [meanpsth, bsubpsth, AUC, steps, psth_AB_trials,psth_CD_trials,psth_AB_background,psth_CD_background]= bo_psthify_pc(site,neuronEnsNum,bin);
     
     cues = 1:4;
@@ -62,12 +72,14 @@ for fi =1:2;
         end
     end
     
+    cue_mean_tr(isnan(cue_mean_tr))=0;
+    cue_meanBK_tr(isnan(cue_mean_tr))=0;
     %% get ready to calculate residual fom glm on background or cueindex1/2
-    cueindex=repmat([1 2 3 4],1,6); cueindex2=repmat([1 2 1 2],1,6);
+    cueindex=repmat([1 2 3 4],1,6); cueindex=repmat([1 2 1 2],1,6);
     
-    for nn = size(site,1):-1:1,[aa,bb,cc]=glmfit(cue_meanBK_tr(nn,:),squeeze(cue_mean_tr(nn,:)),'normal');cueresid(nn,:)=cc.resid;end
+    for nn = size(site,1):-1:1,[aa,bb,cc]=glmfit([ones(1,size(cue_meanBK_tr(nn,:),2));squeeze(cue_meanBK_tr(nn,:))]',cue_mean_tr(nn,:)','normal');cueresid(nn,:)=cc.resid;end
     % for nn = 1:size(site,1),[aa,bb,cc]=glmfit([cueindex, cueindex2],squeeze(cue_mean_tr(nn,:)),'normal');cueresid(nn,:)=cc.resid;,end
-    
+    cueresid(isnan(cueresid))=0;
     %% decide which control we're using
     ccount=0;
     for control_flag = {'raw','bsub','bregress'}
@@ -81,7 +93,11 @@ for fi =1:2;
             case 'bregress'
                 cue_mean_tr2 = cueresid;
         end
-        
+        figure;subplot(3,1,1),imagesc(corr(zscore(cue_mean_tr')')),subplot(3,1,2),imagesc(corr(zscore(cue_mean_tr'-cue_meanBK_tr')')),subplot(3,1,3),imagesc(corr(zscore(cueresid')'))
+
+    iindex=[];for ii = [3,4,1,2],iindex = [iindex,ii,ii+4,ii+8,ii+12,ii+16,ii+20];end,
+    
+    figure(1111);xxx=corr(zscore(cue_mean_tr')');subplot(2,1,fi),imagesc(xxx(iindex,iindex))
         %% classifying on pseudoensembles
         
         
@@ -89,7 +105,10 @@ for fi =1:2;
         
         numsims = 1000;
         ncount=0;
-        for numneurons=[5,10,25,50,75,100]
+        neuronvector=[5,10,25,50,75,100];
+       % neuronvector=neuronvector(neuronvector<size(site,1));
+        
+        for numneurons=neuronvector
             ncount = ncount+1;
             ecount=0;
             for ee = numsims:-1:1
@@ -97,7 +116,7 @@ for fi =1:2;
                 ecount = ecount+1;
                 ensembleorder=randperm(size(site,1),numneurons);
                 %ensembleorder=randi(size(site,1),numneurons,1);
-
+                
                 
                 testensemble = cue_mean_tr2(:,:);
                 testensemble(isnan(testensemble))=0;
@@ -293,20 +312,20 @@ for ctrl_num=3:-1:1
         end
     end
     clr = [.5 .5 .5; 0 0 0];
-    figure(12145)
+    figure(12145+1)
     for ii = 1:2
         subplot(3,3,1+(ctrl_num-1)*3)
-        errorbar(nanmean(betweenpair(:,ii,:),3),nanstd(betweenpair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 6.5]),box off
+        errorbar(neuronvector,nanmean(betweenpair(:,ii,:),3),nanstd(betweenpair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 100.5]),box off
         subplot(3,3,2+(ctrl_num-1)*3)
-        errorbar(nanmean(withinpair(:,ii,:),3),nanstd(withinpair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 6.5]),box off,
+        errorbar(neuronvector,nanmean(withinpair(:,ii,:),3),nanstd(withinpair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 100.5]),box off,
         subplot(3,3,3+(ctrl_num-1)*3)
-        errorbar(nanmean(samepair(:,ii,:),3),nanstd(samepair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 6.5]),box off,
+        errorbar(neuronvector,nanmean(samepair(:,ii,:),3),nanstd(samepair(:,ii,:),[],3),'color',clr(ii,:)), hold on,ylim([0 6]),xlim([.5 100.5]),box off,
     end
     
     histvec=-3.125:.25:3;
     pltct=pltct+2;
     
-    for xx = 6:-1:1
+    for xx = 5:-1:1
         test_stat(xx,1,ctrl_num) = sum((squeeze(betweenpair(xx,2,:))'-squeeze(withinpair(xx,2,:))')>=0)/1000;
         test_stat(xx,2,ctrl_num) = sum((squeeze(withinpair(xx,1,:))'-squeeze(withinpair(xx,2,:))')>=0)/1000;
         
@@ -364,7 +383,12 @@ for ctrl_num=3:-1:1
         end
     end
     
+    [hval(ctrl_num),pval(ctrl_num)]=ttest(betweenpair(2,:),withinpair(2,:));
+    [hval2(ctrl_num),pval2(ctrl_num)]=ttest(withinpair(1,:),withinpair(2,:));
+    
 end
+
+hval,pval,hval2,pval2
 
 
 figure,
@@ -404,5 +428,9 @@ for ctrl_num = 3:-1:1
     errorbar(nanmean(withinpair,2),nanstd(withinpair,[],2))
     subplot(3,1,3)
     errorbar(nanmean(samepair,2),nanstd(samepair,[],2))
-    
+        [hval(ctrl_num),pval(ctrl_num)]=ttest(betweenpair(2,:),withinpair(2,:));
+    [hval2(ctrl_num),pval2(ctrl_num)]=ttest(withinpair(1,:),withinpair(2,:));
+
 end
+
+hval,pval,hval2,pval2

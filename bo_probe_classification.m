@@ -9,23 +9,24 @@ niter = 1000;
 max_A_trial = 2; max_B_trial = 3;
 
 % calculate the likelihood of misclassifcation
+window = 2;
 
 neuron_index = nindex1; %first in well behaved animals
 
 [misclass_AoverC,xxxx] = bo_misclass_wrapper(neuron_index,psth_AB_trials,...
-    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial);
+    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial,window);
 
 [misclass_AoverC_shuffle,xxxx_s] = bo_misclass_wrapper_shuffle(neuron_index,psth_AB_trials,...
-    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial);
+    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial,window);
 
 
 neuron_index = nindex2; %then in reversed or null behavior @ probe
 
 [misclass_CoverA] = bo_misclass_wrapper(neuron_index,psth_AB_trials,...
-    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial);
+    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial,window);
 
 [misclass_CoverA_shuffle,xxxx_s] = bo_misclass_wrapper_shuffle(neuron_index,psth_AB_trials,...
-    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial);
+    psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial,window);
 
 
 
@@ -49,7 +50,7 @@ end
 % bad animals relative to pvalue threshold
 
 itr=1;
-newstep = steps(2:end-3);
+newstep = steps(2:end-1);
 clr = [0 0 0;.5 .5 .5];
 
 errorbins=130:10:200;
@@ -120,7 +121,7 @@ plot(newstep,y_good,'linewidth',2.5,'color',clr(1,:)),hold on
 
 clear test*
 
-testbin=181;
+testbin=188;
 pltct=0;
 pltct=pltct+2;
 
