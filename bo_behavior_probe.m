@@ -9,7 +9,7 @@ for hh = 1:size(pokein,1)
             
             cueon =40;
             cueoff=50;
-            baseon =35;
+            baseon =10;
             baseoff=40;
             
             if pcflag
@@ -171,7 +171,7 @@ for tr=1:6
 
     probeBaseline = [B(:,1), D(:,1), A(:,1,tr), C(:,1,tr)];
     probeDuration = [B(:,2), D(:,2), A(:,2,tr), C(:,2,tr)];
-    probeResults = probeDuration-probeBaseline;
+    probeResults = probeDuration%-probeBaseline;
 
 %  
 

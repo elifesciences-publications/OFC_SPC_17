@@ -1,4 +1,4 @@
-function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_AB_background] = bo_psthify_probe(site,neuronEnsNum,bin)
+function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_AB_background] = bo_psthify_cond(site,neuronEnsNum,bin)
 
 
 startime=bin; %analysis start (seconds)

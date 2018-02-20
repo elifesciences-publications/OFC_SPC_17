@@ -4,7 +4,7 @@ function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_CD_trials,psth_AB
 startime=bin; %analysis start (seconds)
 endtime=80;   %analysis stop (seconds)
 bstartime = bin;
-bendtime =20;
+bendtime =10;
 
 steps=(startime:bin:endtime); %bins to use for PSTH & plots
 cues = 1:4; %stimuli to include

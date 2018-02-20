@@ -19,12 +19,23 @@ clr =  [0.3 0.77 0.99;...
 
 meanpsth2=neural_resp(nindex,:,:);
 
+if pcflag ==1
 clear cue_*
 for nn = 1:size(meanpsth2,1)
     cue_mean(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps>rhotimeStart,1,'first'):find(steps<rhotimeStop,1,'last')),3))/bin;
-    cue_meanBK(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps>-30,1,'first'):find(steps<-20,1,'last')),3))/bin;
+    cue_meanBK(nn,cues)=[squeeze(mean(meanpsth2(nn,3:4,find(steps>-30,1,'first'):find(steps<-0,1,'last')),3)),squeeze(mean(meanpsth2(nn,3:4,find(steps>-30,1,'first'):find(steps<-0,1,'last')),3))]/bin;
     
 end
+else
+    
+clear cue_*
+for nn = 1:size(meanpsth2,1)
+    cue_mean(nn,cues)=squeeze(mean(meanpsth2(nn,:,find(steps>rhotimeStart,1,'first'):find(steps<rhotimeStop,1,'last')),3))/bin;
+    cue_meanBK(nn,cues)=[squeeze(mean(meanpsth2(nn,:,find(steps>-30,1,'first'):find(steps<-0,1,'last')),3))]/bin;
+    
+end
+end
+
 
 sjsj = 1:size(meanpsth2,1);
 

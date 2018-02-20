@@ -3,8 +3,8 @@ function [meanpsth, bsubpsth, AUC, steps, psth_AB_trials, psth_CD_trials,psth_AB
 
 startime=bin; %analysis start (seconds)
 endtime=80;   %analysis stop (seconds)
-bstartime = 10;
-bendtime =40;
+bstartime = bin;
+bendtime =30;
 
 steps=(startime:bin:endtime); %bins to use for PSTH & plots
 win = 10; % analysis window for each method below (# of BINS)

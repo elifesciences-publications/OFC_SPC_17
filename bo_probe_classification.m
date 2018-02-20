@@ -1,6 +1,6 @@
 
 clear classify* missclas*
-enssizes=[50];
+enssizes=205;
 niter = 1000;
 
 %% first classify the probe data on the basis of
@@ -11,7 +11,7 @@ max_A_trial = 2; max_B_trial = 3;
 % calculate the likelihood of misclassifcation
 window = 2;
 
-neuron_index = nindex1; %first in well behaved animals
+neuron_index = nindex1;% (1:size(site,1))>0; %first in well behaved animals
 
 [misclass_AoverC,xxxx] = bo_misclass_wrapper(neuron_index,psth_AB_trials,...
     psth_CD_trials, steps,niter, enssizes, max_A_trial, max_B_trial,window);

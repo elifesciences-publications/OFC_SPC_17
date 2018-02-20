@@ -42,7 +42,7 @@ end
 
 clear numcorrect
 for tbin = ceil(win/2)+1:size(thepsth1,4)-ceil(win/2)-1
-    dim = 1;
+    dim = 1:2;
     if max(dim>size(thepsth1,1))
         dim = 1:size(thepsth1,1);
     end
