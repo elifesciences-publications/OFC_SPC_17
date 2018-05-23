@@ -1,3 +1,7 @@
+
+### This code is associated with the paper from Sadacca et al., "Orbitofrontal neurons signal sensory associations underlying model-based inference in a sensory preconditioning task". eLife, 2017. http://dx.doi.org/10.7554/eLife.30373
+
+
 # OFC_SPC_17
 Scripts and functions for the analysis of orbitofrontal cortex single-unit data collected during sensory preconditioning
 
